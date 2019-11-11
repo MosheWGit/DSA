@@ -58,8 +58,8 @@ def main():
     ratings = training_data.union(testing_data)
 
     model_save_folder = os.getcwd()
-    als_path = model_save_folder + "als/"
-    als_model_path = model_save_folder + "/als_model/"
+    als_path = model_save_folder + "/als"
+    als_model_path = model_save_folder + "/als_model"
 
     als_module = ALS.load(als_path)
     model = ALSModel.load(als_model_path)

@@ -39,8 +39,8 @@ if __name__ == "__main__":
     model, als = build_model(training=training)
 
     # this may cause an issue as I have not yet created the path
-    als_path = model_save_path + "als/"
-    model_path = model_save_path + "als_model/"
+    als_path = model_save_path + "/als"
+    model_path = model_save_path + "/als_model"
     als.write().overwrite().save(als_path)
     model.write().overwrite().save(model_path)
     # als.save(als_path)

@@ -16,10 +16,10 @@ and location of the Reddit file will be stored respectively
 # cleaned_data = os.getcwd() + '/data/'
 # model_path = os.getcwd() + '/model/'
 # srcDir = os.getcwd() + '/src/'
-s3 = 's3://applieddatascience/'
-cleaned_data = s3 + 'data/'
-model_path = s3 + 'model/'
-srcDir = s3 + 'src/'
+# s3 = 's3://applieddatascience/'
+# cleaned_data = s3 + 'data/'
+# model_path = s3 + 'model/'
+# srcDir = s3 + 'src/'
 
 sparkSubmit = '/usr/local/spark/bin/spark-submit'
 sparkSubmit = 'spark-submit'
@@ -44,13 +44,13 @@ task to download data
 '''
 preprocessData = BashOperator(
     task_id='preprocess-data',
-    bash_command=sparkSubmit + ' ' + srcDir + 'PySparkPreProcessing.py',
+    bash_command='spark-submit src/PySparkPreProcessing.py',
     dag=dag)
 
 # task to compute number of unique authors
 generateModel = BashOperator(
     task_id='generate-model',
-    bash_command=sparkSubmit + ' ' + srcDir + 'PySparkModel.py',
+    bash_command='spark-submit src/PySparkModel.py',
     dag=dag)
 
 # Specify that this task depends on the downloadData task
@@ -59,6 +59,6 @@ generateModel.set_upstream(preprocessData)
 # task to compute average upvotes
 seeSugesstions = BashOperator(
     task_id='evaluate-model',
-    bash_command=sparkSubmit + ' ' + srcDir + 'PySparkEvaluation.py',
+    bash_command='spark-submit src/PySparkEvaluation.py',
     dag=dag)
 seeSugesstions.set_upstream(generateModel)

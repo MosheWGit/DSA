@@ -155,6 +155,7 @@ def main():
             HAVING AVG(star_rating) > 4.8 and count(*) > 20
             Order by c desc"""
     queries = [low_ratings_query, high_ratings_query, high_ratings_by_product_id_query]
+    queries = [high_ratings_by_product_id_query]
     df_in = None
     for query in queries:
         df_in = explore(df=df, query=query)

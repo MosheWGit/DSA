@@ -10,8 +10,9 @@ from pyspark.sql.session import SparkSession
 
 from pyspark.context import SparkContext
 from pyspark.sql.session import SparkSession
-sc = SparkContext('local')
+sc = SparkContext()
 spark = SparkSession(sc)
+import os
 
 # from pyspark import SparkConf, SparkContext
 # conf = SparkConf()
@@ -132,6 +133,7 @@ def split_data(ratings):
 def main():
     input_bucket = 's3://amazon-reviews-pds'
     input_path = '/parquet/product_category=Books/*.parquet'
+    input_path = '/parquet/product_category=Books/part-00004-495c48e6-96d6-4650-aa65-3c36a3516ddd.c000.snappy.parquet'
     input_joined = input_bucket + input_path
     # input_bucket = 's3://amazon-reviews-pds/parquet/product_category=Books/'
     # input_path = '*.parquet'
@@ -166,11 +168,13 @@ def main():
 
 
 if __name__ == "__main__":
-    output_folder = sys.argv[1]
+    output_folder = os.getcwd()
     training, testing = main()
 
     # DataFrames can be saved as Parquet files, maintaining the schema information.
-    training.write.parquet(output_folder + "/training.parquet")
-
+    # training.write.parquet(output_folder + "/training.parquet")
+    training.write.format("parquet").mode("overwrite").save(output_folder + "/training.parquet")
     # DataFrames can be saved as Parquet files, maintaining the schema information.
-    testing.write.parquet(output_folder + "/testing.parquet")
+    # testing.write.parquet(output_folder + "/testing.parquet")
+    testing.write.format("parquet").mode("overwrite").save(output_folder + "/testing.parquet")
+

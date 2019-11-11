@@ -7,6 +7,11 @@ import re
 # from pyspark.context import SparkContext
 # from pyspark.sql.session import SparkSession
 
+from pyspark.context import SparkContext
+from pyspark.sql.session import SparkSession
+sc = SparkContext()
+spark = SparkSession(sc)
+import os
 
 import sys
 
@@ -27,17 +32,18 @@ if __name__ == "__main__":
     # Read in the Parquet file created above.
     # Parquet files are self-describing so the schema is preserved.
     # The result of loading a parquet file is also a DataFrame.
-    data_path = sys.argv[1]
-    model_save_path = sys.argv[2]
+    data_path = os.getcwd()
+    model_save_path = os.getcwd()
 
     training = spark.read.parquet(data_path + "/training.parquet")
     model, als = build_model(training=training)
 
     # this may cause an issue as I have not yet created the path
-    als_path = model_save_path + "/als"
-    model_path = model_save_path + "/als_model"
-
-    als.save(als_path)
-    model.save(model_path)
+    als_path = model_save_path + "als/"
+    model_path = model_save_path + "als_model/"
+    als.write().overwrite().save(als_path)
+    model.write().overwrite().save(model_path)
+    # als.save(als_path)
+    # model.save(model_path)
 
 

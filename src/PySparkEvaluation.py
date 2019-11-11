@@ -8,6 +8,12 @@ import sys
 # from pyspark.context import SparkContext
 # from pyspark.sql.session import SparkSession
 
+from pyspark.context import SparkContext
+from pyspark.sql.session import SparkSession
+sc = SparkContext()
+spark = SparkSession(sc)
+import os
+
 
 def evaluate_model(model, testing):
     # Evaluate the model by computing the RMSE on the test data
@@ -42,7 +48,7 @@ def main():
     # sc = SparkContext.getOrCreate()
     # spark = SparkSession(sc)
 
-    data_path = sys.argv[1]
+    data_path = os.getcwd()
     training_data_path = data_path + "/training.parquet"
     testing_data_path = data_path + "/testing.parquet"
 
@@ -51,9 +57,9 @@ def main():
 
     ratings = training_data.union(testing_data)
 
-    model_save_folder = sys.argv[2]
-    als_path = model_save_folder + "/als"
-    als_model_path = model_save_folder + "/als_model"
+    model_save_folder = os.getcwd()
+    als_path = model_save_folder + "als/"
+    als_model_path = model_save_folder + "/als_model/"
 
     als_module = ALS.load(als_path)
     model = ALSModel.load(als_model_path)
@@ -70,6 +76,11 @@ def main():
 
     print(userSubsetRecs.take(2))
     print(booksSubSetRecs.take(2))
+    print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+    print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+    print("Finished!!!!!")
+    print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+    print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
 
 
 if __name__ == "__main__":
